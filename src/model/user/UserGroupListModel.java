@@ -28,11 +28,19 @@ public class UserGroupListModel extends AbstractListModel
         refreshData();
     }
     
-    private void refreshData()
+    /**
+     *
+     */
+    public final void refreshData()
     {        
         List<Criterion> criterions = new ArrayList<>();
         criterions.add(Restrictions.eq("type", type));
         users = HibernateSupport.readMoreObjects(User.class, criterions);
+    }
+    
+    public void clearData()
+    {
+        users = new ArrayList<>();
     }
     
     @Override
@@ -45,5 +53,32 @@ public class UserGroupListModel extends AbstractListModel
     public Object getElementAt(int index)
     {
         return users.get(index);
+    }
+    
+    public User getUserAt(int index)
+    {
+        return users.get(index);
+    }
+    
+    public void addUser(User u)
+    {
+        users.add(u);
+        fireIntervalAdded(this, users.size()-1, users.size()-1);
+    }
+    
+    public void removeUser(int index)
+    {
+        users.remove(index);
+        fireIntervalRemoved(this, index, index);
+    }
+
+    public boolean contains(User u)
+    {
+        return users.contains(u);
+    }
+    
+    public List<User> getUsers()
+    {
+        return users;
     }
 }

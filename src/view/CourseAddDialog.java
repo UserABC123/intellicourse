@@ -7,6 +7,7 @@
 package view;
 
 import control.CourseControl;
+import model.user.UserGroupListModel;
 
 /**
  *
@@ -18,10 +19,13 @@ public class CourseAddDialog extends javax.swing.JDialog
     /**
      * Creates new form CourseAddDialog
      */
-    public CourseAddDialog(CourseControl cc)
+    public CourseAddDialog(CourseControl cc,UserGroupListModel teachersCourseLM, UserGroupListModel teachersLM)
     {
         initComponents();
         this.cc = cc;
+        teacherList.setModel(teachersLM);
+        courseTeacherList.setModel(teachersCourseLM);
+        setSize(600,300);
         setModal(true);
         setModalityType(ModalityType.APPLICATION_MODAL);
         setAlwaysOnTop(true);
@@ -39,52 +43,35 @@ public class CourseAddDialog extends javax.swing.JDialog
     {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         tfId = new javax.swing.JTextField();
         tfName = new javax.swing.JTextField();
         spSemesterHours = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        list = new javax.swing.JList();
-        jButton2 = new javax.swing.JButton();
+        teacherList = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        courseTeacherList = new javax.swing.JList();
+        jPanel6 = new javax.swing.JPanel();
+        btAddTeacher = new javax.swing.JButton();
+        btRemoveTeacher = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        btAddCourse = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(300, 300));
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        setMinimumSize(new java.awt.Dimension(600, 300));
+        setPreferredSize(new java.awt.Dimension(600, 363));
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 363, Short.MAX_VALUE)
-        );
+        jPanel4.setLayout(new java.awt.GridLayout());
 
-        getContentPane().add(jPanel3, new java.awt.GridBagConstraints());
-
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Course details"));
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 5;
-        jPanel1.add(jButton1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -130,46 +117,117 @@ public class CourseAddDialog extends javax.swing.JDialog
         gridBagConstraints.gridwidth = 5;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        getContentPane().add(jPanel1, new java.awt.GridBagConstraints());
+        jPanel4.add(jPanel1);
 
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.PAGE_AXIS));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.PAGE_AXIS));
 
-        list.setModel(new javax.swing.AbstractListModel()
+        jPanel2.setLayout(new java.awt.GridLayout(1, 2));
+
+        teacherList.setBorder(javax.swing.BorderFactory.createTitledBorder("All teachers"));
+        teacherList.setModel(new javax.swing.AbstractListModel()
         {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(list);
+        jScrollPane1.setViewportView(teacherList);
 
         jPanel2.add(jScrollPane1);
 
-        jButton2.setText("Add Teacher");
-        jPanel2.add(jButton2);
+        courseTeacherList.setBorder(javax.swing.BorderFactory.createTitledBorder("Selected Teachers"));
+        courseTeacherList.setModel(new javax.swing.AbstractListModel()
+        {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(courseTeacherList);
 
-        getContentPane().add(jPanel2, new java.awt.GridBagConstraints());
+        jPanel2.add(jScrollPane2);
+
+        jPanel3.add(jPanel2);
+
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.LINE_AXIS));
+
+        btAddTeacher.setText("Add Teacher");
+        btAddTeacher.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btAddTeacherActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btAddTeacher);
+
+        btRemoveTeacher.setText("Remove Teacher");
+        btRemoveTeacher.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btRemoveTeacherActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btRemoveTeacher);
+
+        jPanel3.add(jPanel6);
+
+        jPanel4.add(jPanel3);
+
+        getContentPane().add(jPanel4);
+
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+        btAddCourse.setText("Add Course");
+        btAddCourse.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        btAddCourse.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btAddCourseActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btAddCourse);
+
+        getContentPane().add(jPanel5);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton1ActionPerformed
-    {//GEN-HEADEREND:event_jButton1ActionPerformed
+    private void btAddTeacherActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddTeacherActionPerformed
+    {//GEN-HEADEREND:event_btAddTeacherActionPerformed
+        cc.addTeacherToCourseList(teacherList.getSelectedIndex());
+    }//GEN-LAST:event_btAddTeacherActionPerformed
+
+    private void btRemoveTeacherActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btRemoveTeacherActionPerformed
+    {//GEN-HEADEREND:event_btRemoveTeacherActionPerformed
+        cc.removeTeacherFromCourseList(courseTeacherList.getSelectedIndex());
+    }//GEN-LAST:event_btRemoveTeacherActionPerformed
+
+    private void btAddCourseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddCourseActionPerformed
+    {//GEN-HEADEREND:event_btAddCourseActionPerformed
         cc.addCourse(tfId.getText(), tfName.getText(), (float)spSemesterHours.getValue());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btAddCourseActionPerformed
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btAddCourse;
+    private javax.swing.JButton btAddTeacher;
+    private javax.swing.JButton btRemoveTeacher;
+    private javax.swing.JList courseTeacherList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList list;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSpinner spSemesterHours;
+    private javax.swing.JList teacherList;
     private javax.swing.JTextField tfId;
     private javax.swing.JTextField tfName;
     // End of variables declaration//GEN-END:variables

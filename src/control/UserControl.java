@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.ListModel;
 import model.user.TeacherRequestListModel;
 import model.user.User;
+import model.user.UserGroupListModel;
 import model.user.UserType;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -27,11 +28,12 @@ public class UserControl
     private BaseControl bc;
     private User loggedInAs;
     private TeacherRequestListModel trlm;
+    private UserGroupListModel tlm = null;
     
     public UserControl(BaseControl bc)
     {
         this.bc = bc;
-        this.trlm = new TeacherRequestListModel();
+        this.trlm = new TeacherRequestListModel();        
     }
 
     /**
@@ -100,7 +102,16 @@ public class UserControl
     {
         return loggedInAs;
     }
-
+    
+    public UserGroupListModel getTeachersListModel()
+    {
+        if(tlm == null)
+        {
+            tlm = new UserGroupListModel(UserType.TEACHER);
+        }
+        return tlm;
+    }
+    
     public ListModel getTeacherRequestListModel()
     {
         return trlm;

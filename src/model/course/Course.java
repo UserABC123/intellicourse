@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -37,20 +38,20 @@ public class Course implements ISaveAndDelete
     private float semesterHours;
     
     
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name="Course_Curriculumsemester", 
                 joinColumns={@JoinColumn(name="CourseID")}, 
                 inverseJoinColumns={@JoinColumn(name="CurriculumSemesterID")})
     private List<CurriculumSemester> curriculumSemesters;
     
     
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST},fetch=FetchType.EAGER)
     @JoinTable(name="Course_Teacher", 
                 joinColumns={@JoinColumn(name="CourseID")}, 
                 inverseJoinColumns={@JoinColumn(name="UserID")})
     private List<User> teachers;
     
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name="Course_Student", 
                 joinColumns={@JoinColumn(name="CourseID")}, 
                 inverseJoinColumns={@JoinColumn(name="UserID")})
@@ -62,11 +63,12 @@ public class Course implements ISaveAndDelete
     {
     }
 
-    public Course(String id, String name, float semesterHours)
+    public Course(String id, String name, float semesterHours, List<User> teachers)
     {
         this.id = id;
         this.name = name;
         this.semesterHours = semesterHours;
+        this.teachers = teachers;
     }   
     
     public String getId()
@@ -88,6 +90,18 @@ public class Course implements ISaveAndDelete
     {
         return semesterHours;
     }    
+
+    public List<User> getTeachers()
+    {
+        return teachers;
+    }
+
+    public List<User> getParticipants()
+    {
+        return participants;
+    }
+    
+    
     
     @Override
     public boolean saveToDB()

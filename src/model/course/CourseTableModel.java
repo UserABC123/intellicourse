@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model.course;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import model.user.User;
 import support.HibernateSupport;
 
 /**
@@ -17,10 +17,10 @@ import support.HibernateSupport;
 public class CourseTableModel extends AbstractTableModel
 {
 
-   private List<Course> courses;
+    private List<Course> courses;
     private String[] columns =
     {
-        "ID", "Name", "Semester hours"
+        "ID", "Name", "Semester hours", "Teacher(s)"
     };
 
     public CourseTableModel()
@@ -29,7 +29,7 @@ public class CourseTableModel extends AbstractTableModel
     }
 
     public void reloadTableData()
-    {   
+    {
         courses = HibernateSupport.readMoreObjects(Course.class, null, true);
     }
 
@@ -57,6 +57,19 @@ public class CourseTableModel extends AbstractTableModel
                 return c.getName();
             case 2:
                 return c.getSemesterHours();
+            case 3:
+                List<User> teachers = c.getTeachers();
+                if (teachers != null && teachers.size() > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(teachers.get(0).getUserName());
+                    for (int i=1; i<teachers.size();i++)
+                    {
+                        sb.append(", ").append(teachers.get(i).getUserName());
+                    }
+                    return sb.toString();
+                }
+
             default:
                 return "";
         }
@@ -68,25 +81,25 @@ public class CourseTableModel extends AbstractTableModel
         return columns[column]; //To change body of generated methods, choose Tools | Templates.
     }
 
-    public boolean addCourse(String id, String name, float semesterHours)
+    public boolean addCourse(String id, String name, float semesterHours, List<User> teachers)
     {
         boolean result;
         // Check if object exists already
-        if(HibernateSupport.readOneObjectByID(Course.class, id) != null)
+        if (HibernateSupport.readOneObjectByID(Course.class, id) != null)
         {
             return false;
         }
-        
-        Course c = new Course(id,name,semesterHours); 
+
+        Course c = new Course(id, name, semesterHours, teachers);
         try
         {
             HibernateSupport.beginTransaction();
             result = c.saveToDB();
             HibernateSupport.commitTransaction();
-            if(result)
+            if (result)
             {
-              courses.add(c);
-              fireTableRowsInserted(courses.size() - 2, courses.size() - 1);
+                courses.add(c);
+                fireTableRowsInserted(courses.size() - 2, courses.size() - 1);
             }
         }
         catch (org.hibernate.TransientObjectException toe)
@@ -107,5 +120,4 @@ public class CourseTableModel extends AbstractTableModel
         fireTableRowsDeleted(index, index);
     }
 
-    
 }
