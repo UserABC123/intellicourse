@@ -309,6 +309,7 @@ public class LoginView extends javax.swing.JFrame
             catch (NumberFormatException nfe)
             {
                 JOptionPane.showMessageDialog(rootPane, "Your matriculation number must be a positive integer", "Registration failed", 0);
+                return true;
             }
         }
         else

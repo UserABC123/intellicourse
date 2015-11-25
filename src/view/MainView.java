@@ -27,6 +27,7 @@ public class MainView extends javax.swing.JFrame
         this.mc = mc;
         setSize(400,300);
         initForUsergroup();
+        setTitle("Main");
     }   
     
 
