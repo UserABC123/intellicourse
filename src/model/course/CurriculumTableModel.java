@@ -95,4 +95,11 @@ public class CurriculumTableModel extends AbstractTableModel
         fireTableRowsDeleted(index, index);
     }
 
+    public Curriculum getCurriculumAt(int index)
+    {
+        return curricula.get(index);
+    }
+    
+    
+
 }

@@ -207,6 +207,7 @@ public class CourseAddDialog extends javax.swing.JDialog
     private void btAddCourseActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btAddCourseActionPerformed
     {//GEN-HEADEREND:event_btAddCourseActionPerformed
         cc.addCourse(tfId.getText(), tfName.getText(), (float)spSemesterHours.getValue());
+        dispose();
     }//GEN-LAST:event_btAddCourseActionPerformed
 
    

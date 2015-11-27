@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import model.interfaces.ISaveAndDelete;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import support.HibernateSupport;
 
 /**
@@ -37,6 +39,7 @@ public class CurriculumSemester implements ISaveAndDelete
     @JoinColumn(name="CurriculumID")
     private Curriculum curriculum;
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy="curriculumSemesters")
     private List<Course> courses;
     
@@ -74,5 +77,24 @@ public class CurriculumSemester implements ISaveAndDelete
     {
         HibernateSupport.deleteObject(this);
     }
+
+    public int getSemester()
+    {
+        return semester;
+    }
+
+    public List<Course> getCourses()
+    {
+        return courses;
+    }
+
+    public void addCourse(Course c)
+    {
+        c.addCurriculumSemester(this);
+        HibernateSupport.beginTransaction();
+        c.saveToDB();
+        HibernateSupport.commitTransaction();
+    }
+    
     
 }

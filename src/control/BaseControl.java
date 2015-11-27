@@ -21,11 +21,11 @@ public class BaseControl
     private final AccountControl ac;
     
     public BaseControl()
-    {
-        cc = new CurriculumControl(this);
+    {        
         uc = new UserControl(this);
         mc = new MainControl(this);
         coc = new CourseControl(this);
+        cc = new CurriculumControl(this);
         ac = new AccountControl(this);
     }
     

@@ -107,5 +107,8 @@ public class Curriculum implements ISaveAndDelete
         return curriculumSemesters.size();
     }
     
-    
+    public List<CurriculumSemester> getCurriculumSemesters()
+    {
+        return curriculumSemesters;
+    }
 }

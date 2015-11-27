@@ -53,7 +53,7 @@ public class CurriculumDialog extends javax.swing.JDialog
         jLabel2 = new javax.swing.JLabel();
         spSemester = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        btSemesters = new javax.swing.JButton();
         btDelete = new javax.swing.JButton();
         btAdd = new javax.swing.JButton();
 
@@ -101,7 +101,7 @@ public class CurriculumDialog extends javax.swing.JDialog
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 111, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,18 +110,15 @@ public class CurriculumDialog extends javax.swing.JDialog
 
         jPanel3.add(jPanel4);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 23, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(jPanel5);
+        btSemesters.setText("Show Semesters");
+        btSemesters.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                btSemestersActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btSemesters);
 
         btDelete.setText("Delete");
         btDelete.addActionListener(new java.awt.event.ActionListener()
@@ -154,7 +151,7 @@ public class CurriculumDialog extends javax.swing.JDialog
     {//GEN-HEADEREND:event_btAddActionPerformed
         if(!cc.addCurriculum(tfName.getText(), (Integer)spSemester.getValue()))
        {
-            JOptionPane.showMessageDialog(rootPane, "Invalid input or curriculum already exists!", "Ading Curriculum failed", 0);
+            JOptionPane.showMessageDialog(rootPane, "Invalid input or curriculum already exists!", "Adding Curriculum failed", 0);
        }    
     }//GEN-LAST:event_btAddActionPerformed
 
@@ -163,17 +160,25 @@ public class CurriculumDialog extends javax.swing.JDialog
         cc.deleteCurriculum(table.getSelectedRow());
     }//GEN-LAST:event_btDeleteActionPerformed
 
+    private void btSemestersActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btSemestersActionPerformed
+    {//GEN-HEADEREND:event_btSemestersActionPerformed
+        if(!cc.displaySemestersDialog(table.getSelectedRow()))
+        {
+            JOptionPane.showMessageDialog(rootPane, "You need to select a curriculum to display the semester courses!", "Displaying semester courses failed", 0);
+        }
+    }//GEN-LAST:event_btSemestersActionPerformed
+
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdd;
     private javax.swing.JButton btDelete;
+    private javax.swing.JButton btSemesters;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner spSemester;
     private javax.swing.JTable table;

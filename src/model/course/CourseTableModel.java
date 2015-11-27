@@ -119,5 +119,9 @@ public class CourseTableModel extends AbstractTableModel
         courses.remove(index);
         fireTableRowsDeleted(index, index);
     }
-
+    
+    public Course getCourseAt(int index)
+    {
+        return courses.get(index);
+    }
 }

@@ -6,6 +6,7 @@
 
 package model.course;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import model.interfaces.ISaveAndDelete;
 import model.user.User;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import support.HibernateSupport;
 
 /**
@@ -37,7 +40,7 @@ public class Course implements ISaveAndDelete
     @Column(name ="SemesterHours")
     private float semesterHours;
     
-    
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = {CascadeType.PERSIST})
     @JoinTable(name="Course_Curriculumsemester", 
                 joinColumns={@JoinColumn(name="CourseID")}, 
@@ -69,6 +72,7 @@ public class Course implements ISaveAndDelete
         this.name = name;
         this.semesterHours = semesterHours;
         this.teachers = teachers;
+        curriculumSemesters = new ArrayList<>();
     }   
     
     public String getId()
@@ -113,6 +117,11 @@ public class Course implements ISaveAndDelete
     public void deleteFromDB()
     {
         HibernateSupport.deleteObject(this);
+    }
+
+    void addCurriculumSemester(CurriculumSemester cs)
+    {
+        curriculumSemesters.add(cs);
     }
     
 }

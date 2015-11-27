@@ -6,13 +6,11 @@
 package control;
 
 import javax.swing.JDialog;
-import javax.swing.ListModel;
 import javax.swing.table.TableModel;
 import model.course.CourseTableModel;
 import model.user.User;
 import model.user.UserGroupListModel;
 import model.user.UserType;
-import org.hibernate.dialect.FirebirdDialect;
 import view.CourseAddDialog;
 import view.CourseDialog;
 
@@ -93,4 +91,10 @@ public class CourseControl
         }
     }
 
+    public CourseTableModel getCourseTableModel()
+    {
+        return ctm;
+    }
+    
+    
 }
